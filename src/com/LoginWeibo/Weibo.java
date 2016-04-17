@@ -40,7 +40,7 @@ public class Weibo {
 				+ "entry=weibo&callback=sinaSSOController.preloginCallBack&"
 				+ "su=&rsakt=mod&client=ssologin.js(v1.4.18)&_=" + System.currentTimeMillis();
 		HttpGet get = new HttpGet(preLoginUrl);
-		get.setHeader("Referer", "http://weibo.com/login.php");// getµÇÂ¼Ô¤´¦ÀíÒ³Ãæ£¬»ñµÃÏà¹Ø²ÎÊı¡£
+		get.setHeader("Referer", "http://weibo.com/login.php");// getç™»å½•é¢„å¤„ç†é¡µé¢ï¼Œè·å¾—ç›¸å…³å‚æ•°ã€‚
 		CloseableHttpResponse response = client.execute(get);
 		String preLoginHtml = EntityUtils.toString(response.getEntity(), "utf-8");
 		// response.close();
@@ -51,12 +51,12 @@ public class Weibo {
 		String rsaPub = json.getAsJsonObject().get("pubkey").getAsString();
 		String nonce = json.getAsJsonObject().get("nonce").getAsString();
 		String rsakv = json.getAsJsonObject().get("rsakv").getAsString();
-		String pw = "****";// ÃÜÂëÎªÎ¢²©ÊµÏÖµÄrsa2¼ÓÃÜ
-		String userName = "****";// ÓÃ»§ÃûÎªbase64¼ÓÃÜ
+		String userName = "****";// ç”¨æˆ·åä¸ºbase64åŠ å¯†
+		String pw = "****";// å¯†ç ä¸ºå¾®åšå®ç°çš„rsa2åŠ å¯†
 		String serverTime = json.getAsJsonObject().get("servertime").getAsString();
 		String encodedPw = getEncodedPw(rsaPub, pw, nonce, serverTime);
 		String encodedUserName = new BASE64Encoder().encode(userName.getBytes());
-		HttpPost post = new HttpPost("http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.18)");// µÇÂ¼url
+		HttpPost post = new HttpPost("http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.18)");// ç™»å½•url
 		post.setHeader("Referer", "http://weibo.com/login.php");
 		post.setHeader("host", "login.sina.com.cn");
 		List<BasicNameValuePair> postDict = new ArrayList<>();
@@ -90,9 +90,9 @@ public class Weibo {
 		String locationUrl = getLocationgUrl(responseHtml);
 		HttpGet get3 = new HttpGet(locationUrl);
 		get3.setHeader("Referer", "http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.18)");
-		client.execute(get3);// ĞèÒª¶îÍâ·ÃÎÊÔÚpost³É¹¦ºó·µ»ØµÄlocationurl£¬»ñµÃ¹Ø¼ücookie£¬·ñÔòÎŞ·¨³É¹¦·ÃÎÊÒ³Ãæ¡£(ÔÚ·ÃÎÊĞèÒª×¥È¡Ò³ÃæÊ±£¬·şÎñÆ÷»á¼ì²éÓĞÃ»ÓĞÃûÎªRSFµÄcookie¡£)
+		client.execute(get3);// éœ€è¦é¢å¤–è®¿é—®åœ¨postæˆåŠŸåè¿”å›çš„locationurlï¼Œè·å¾—å…³é”®cookieï¼Œå¦åˆ™æ— æ³•æˆåŠŸè®¿é—®é¡µé¢ã€‚(åœ¨è®¿é—®éœ€è¦æŠ“å–é¡µé¢æ—¶ï¼ŒæœåŠ¡å™¨ä¼šæ£€æŸ¥æœ‰æ²¡æœ‰åä¸ºRSFçš„cookieã€‚)
 		// response2.close();
-		HttpGet get2 = new HttpGet("http://weibo.com/zard921?refer_flag=0000015012_&from=feed&loc=avatar");// ¿ÉÒÔÕı³£·ÃÎÊÒ³ÃæÁË
+		HttpGet get2 = new HttpGet("http://weibo.com/zard921?refer_flag=0000015012_&from=feed&loc=avatar");// å¯ä»¥æ­£å¸¸è®¿é—®é¡µé¢äº†
 		get2.setHeader("Referer", "http://weibo.com/mygroups?gid=3733382226197678&wvr=6&leftnav=1");
 		CloseableHttpResponse response3 = client.execute(get2);
 		System.out.println(response3.getStatusLine().getStatusCode() + "------------------");
@@ -119,7 +119,7 @@ public class Weibo {
 	}
 
 	/**
-	 * ½«Ïà¹Ø²ÎÊı´«Èëjs£¬ÀûÓÃJava×Ô´øjsÒıÇæ¼ÓÃÜÃÜÂë ÆäÖĞµÄjsÎÄ¼şÎª½«ÃÜÂë´¦ÀíµÄjsÏÂÔØµ½±¾µØ¾­¹ı±à¼­´¦ÀíµÃÀ´
+	 * å°†ç›¸å…³å‚æ•°ä¼ å…¥jsï¼Œåˆ©ç”¨Javaè‡ªå¸¦jså¼•æ“åŠ å¯†å¯†ç  å…¶ä¸­çš„jsæ–‡ä»¶ä¸ºå°†å¯†ç å¤„ç†çš„jsä¸‹è½½åˆ°æœ¬åœ°ç»è¿‡ç¼–è¾‘å¤„ç†å¾—æ¥
 	 */
 	static String getEncodedPw(String rsaPub, String pw, String nonce, String serverTime) {
 		String encodedPw = "";
@@ -136,7 +136,7 @@ public class Weibo {
 			Invocable in = (Invocable) engine;
 			try {
 				encodedPw = in.invokeFunction("get_pass", rsaPub, pw, nonce, serverTime).toString();
-				// get_pass·½·¨Îª×Ô¼ºĞ´µÄ£¬¸ù¾İ¼ÓÃÜ·½Ê½£¬×ÔĞĞÌí¼Ó·½·¨´«ÈëÏà¹Ø²ÎÊı²¢½«¼ÓÃÜºóµÄpwÈ¡³ö
+				// get_passæ–¹æ³•ä¸ºè‡ªå·±å†™çš„ï¼Œæ ¹æ®åŠ å¯†æ–¹å¼ï¼Œè‡ªè¡Œæ·»åŠ æ–¹æ³•ä¼ å…¥ç›¸å…³å‚æ•°å¹¶å°†åŠ å¯†åçš„pwå–å‡º
 			} catch (NoSuchMethodException e) {
 				e.printStackTrace();
 			} catch (ScriptException e) {
